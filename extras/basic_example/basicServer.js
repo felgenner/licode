@@ -10,8 +10,8 @@ var express = require('express'),
         config = require('./../../licode_config');
 
 var options = {
-    key: fs.readFileSync('../../cert/key.pem').toString(),
-    cert: fs.readFileSync('../../cert/cert.pem').toString()
+    key: fs.readFileSync('cert/private.key').toString(),
+    cert: fs.readFileSync('cert/certificate_bundled.crt').toString()
 };
 
 var app = express();
@@ -30,62 +30,46 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-//app.set('views', __dirname + '/../views/');
-//disable layout
-//app.set("view options", {layout: false});
-
 N.API.init(config.nuve.superserviceID, config.nuve.superserviceKey, 'http://localhost:3000/');
-
-var myRoom;
-
-N.API.getRooms(function(roomlist) {
-    "use strict";
-    var rooms = JSON.parse(roomlist);
-    console.log(rooms.length); //check and see if one of these rooms is 'basicExampleRoom'
-    for (var room in rooms) {
-        if (rooms[room].name === 'basicExampleRoom'){
-            myRoom = rooms[room]._id;
-        }
-    }
-    if (!myRoom) {
-
-        N.API.createRoom('basicExampleRoom', function(roomID) {
-            myRoom = roomID._id;
-            console.log('Created room ', myRoom);
-        });
-    } else {
-        console.log('Using room', myRoom);
-    }
-});
-
-
-app.get('/getRooms/', function(req, res) {
-    "use strict";
-    N.API.getRooms(function(rooms) {
-        res.send(rooms);
-    });
-});
-
-app.get('/getUsers/:room', function(req, res) {
-    "use strict";
-    var room = req.params.room;
-    N.API.getUsers(room, function(users) {
-        res.send(users);
-    });
-});
-
 
 app.post('/createToken/', function(req, res) {
     "use strict";
-    var room = myRoom,
+    var needRoom = req.body.room,
         username = req.body.username,
         role = req.body.role;
-    N.API.createToken(room, username, role, function(token) {
-        console.log(token);
-        res.send(token);
+
+    var myRoom = null;
+
+    N.API.getRooms(function(roomlist) {
+        "use strict";
+        var rooms = JSON.parse(roomlist);
+
+        for (var room in rooms) {
+            if (rooms[room].name === needRoom){
+                myRoom = rooms[room]._id;
+            }
+        }
+        if (!myRoom) {
+            N.API.createRoom(needRoom, function(roomID) {
+                console.log('Created room ', roomID);
+                createToken(roomID._id, username, role, res)
+            });
+        } else {
+            console.log('Using room', needRoom);
+            createToken(myRoom, username, role, res)
+        }
     });
 });
 
+function createToken(roomId, username, role, res) {
+    N.API.createToken(roomId, username, role, function(token) {
+        console.log(token);
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
+        res.header('Access-Control-Allow-Headers', 'origin, content-type');
+        res.send(token);
+    });
+}
 
 app.use(function(req, res, next) {
     "use strict";
