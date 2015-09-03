@@ -7,6 +7,7 @@ ROOT=$PATHNAME/..
 BUILD_DIR=$ROOT/build
 CURRENT_DIR=`pwd`
 EXTRAS=$ROOT/extras
+SCRIPTS=$ROOT/scripts
 
 export PATH=$PATH:/usr/local/sbin
 
@@ -30,5 +31,5 @@ cd $ROOT/erizo_controller
 cp $ROOT/erizo_controller/erizoClient/dist/erizo.js $EXTRAS/basic_example/public/
 cp $ROOT/nuve/nuveClient/dist/nuve.js $EXTRAS/basic_example/
 
-cd $EXTRAS
+cd $SCRIPTS
 ./initBasicExample.sh
