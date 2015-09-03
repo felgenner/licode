@@ -51,10 +51,10 @@ config.erizoController.publicIP = ''; //default value: ''
 
 // This configuration is used by the clients to reach erizoController 
 // Use '' to use the public IP address instead of a hostname
-config.erizoController.hostname = ''; //default value: ''
+config.erizoController.hostname = 'licode01.etutorium.com'; //default value: ''
 config.erizoController.port = 8080; //default value: 8080
 // Use true if clients communicate with erizoController over SSL
-config.erizoController.ssl = false; //default value: false
+config.erizoController.ssl = true; //default value: false
 
 // This configuration is used by erizoController server to listen for connections
 // Use true if erizoController listens in HTTPS. SSL certificates located in /cert
