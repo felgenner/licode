@@ -99,8 +99,8 @@ if (GLOBAL.config.erizoController.listen_ssl) {
     var https = require('https');
     var fs = require('fs');
     var options = {
-        key: fs.readFileSync('../../cert/key.pem').toString(),
-        cert: fs.readFileSync('../../cert/cert.pem').toString()
+        key: fs.readFileSync('../../extras/basic_example/cert/private.key').toString(),
+        cert: fs.readFileSync('../../extras/basic_example/cert/certificate_bundled.crt').toString()
     };
     server = https.createServer(options);
 } else {
