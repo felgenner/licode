@@ -32,6 +32,16 @@ app.use(bodyParser.urlencoded({
 
 N.API.init(config.nuve.superserviceID, config.nuve.superserviceKey, 'http://localhost:3000/');
 
+app.post('/testSpeed/', function(req, res) {
+    "use strict";
+    for(var bulb_data = '1'; bulb_data.length < 1 + 20480; bulb_data += '0'){};
+
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type');
+    res.send(bulb_data);
+});
+
 app.post('/createToken/', function(req, res) {
     "use strict";
     var needRoom = req.body.room,
