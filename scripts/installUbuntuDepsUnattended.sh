@@ -190,6 +190,8 @@ install_openssl
 install_libnice
 install_libsrtp
 
+service rabbitmq-server restart
+
 install_opus
 if [ "$ENABLE_GPL" = "true" ]; then
   install_mediadeps
