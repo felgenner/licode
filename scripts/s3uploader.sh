@@ -9,6 +9,6 @@ for filename in $(ls *.mkv); do
   then
     ffmpeg -vcodec libvpx -i $filename ${BASH_REMATCH[1]}.webm
     rm $filename
-    aws s3 cp ${BASH_REMATCH[1]}.webm s3://etutorium.com/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+    aws s3 cp ${BASH_REMATCH[1]}.webm s3://etutorium.com/streams/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
   fi
 done
