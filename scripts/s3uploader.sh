@@ -7,7 +7,7 @@ cd $STREAM_DIR
 for filename in $(ls *.mkv); do
   if [[ $filename =~ ^(.*)\.mkv$ ]];
   then
-    ffmpeg -i $filename -vcodec libvpx ${BASH_REMATCH[1]}.webm
+    ffmpeg -i $filename -vcodec libvpx -acodec libvorbis ${BASH_REMATCH[1]}.webm
     rm $filename
     aws s3 cp ${BASH_REMATCH[1]}.webm s3://etutorium.com/streams/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
     rm ${BASH_REMATCH[1]}.webm
