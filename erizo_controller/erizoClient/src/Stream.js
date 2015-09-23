@@ -81,9 +81,9 @@ Erizo.Stream = function (spec) {
           L.Logger.debug("Requested access to local media");
           var videoOpt = spec.video;
           if ((videoOpt == true || spec.screen == true) && that.videoSize !== undefined) {
-            videoOpt = {mandatory: {maxFrameRate: 2, minWidth: that.videoSize[0], minHeight: that.videoSize[1], maxWidth: that.videoSize[2], maxHeight: that.videoSize[3]}};
+            videoOpt = {mandatory: {maxFrameRate: 30, minWidth: that.videoSize[0], minHeight: that.videoSize[1], maxWidth: that.videoSize[2], maxHeight: that.videoSize[3]}};
           } else if (spec.screen == true && videoOpt === undefined){
-            videoOpt = {maxFrameRate: 2};
+            videoOpt = {maxFrameRate: 30};
           }
           var opt = {video: videoOpt, audio: spec.audio, fake: spec.fake, screen: spec.screen, extensionId:that.extensionId};
           L.Logger.debug(opt);
